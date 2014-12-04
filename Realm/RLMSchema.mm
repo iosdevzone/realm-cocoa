@@ -78,8 +78,7 @@ static NSMutableDictionary *s_localNameToClass;
 }
 
 + (void)initialize {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    @synchronized(self) {
         NSMutableArray *schemaArray = [NSMutableArray array];
         RLMSchema *schema = [[RLMSchema alloc] init];
 
@@ -124,7 +123,7 @@ static NSMutableDictionary *s_localNameToClass;
 
         // set shared schema
         s_sharedSchema = schema;
-    });
+    }
 }
 
 // schema based on runtime objects
